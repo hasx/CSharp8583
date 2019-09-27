@@ -239,5 +239,41 @@ namespace CSharp8583
                 }
             }
         }
+
+        public void PrintRawDebug(byte[] msg)
+        {
+            string linebuf = "";
+
+            for (var ii = 0; ii < msg.Length; ii++)
+            {
+                if (ii % 16 == 0 && ii != 0)
+                {
+                    linebuf += '|';
+                    /*Replace non-printable ( between' ' and '~' ) ascii characters with '.'*/
+                    for (var jj = ii - 16; jj < ii; jj++)
+                    {
+                        if (msg[jj] >= 0x20 && msg[jj] <= 0x80)
+                            linebuf += System.Text.Encoding.Default.GetString(msg, jj, 1);
+                        else
+                            linebuf += '.';
+                    }
+                    linebuf += System.Environment.NewLine;
+                }
+                linebuf += String.Format("{0:X2} ", msg[ii]);
+            }
+
+            linebuf += new string(' ', (16 - msg.Length % 16) * 3);
+            linebuf += '|';
+            /*Replace non ascii characters of last rolw with '.'*/
+            for (var jj = msg.Length - msg.Length % 16; jj < msg.Length; jj++)
+            {
+                if (msg[jj] >= 0x20 && msg[jj] <= 0x80)//between ' ' and '~' ascii characters
+                    linebuf += System.Text.Encoding.Default.GetString(msg, jj, 1);
+                else
+                    linebuf += '.';
+            }
+
+            Console.WriteLine(linebuf);
+        }
     }
 }
