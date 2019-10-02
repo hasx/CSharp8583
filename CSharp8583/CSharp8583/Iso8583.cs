@@ -264,7 +264,7 @@ namespace CSharp8583
 
             linebuf += new string(' ', (16 - msg.Length % 16) * 3);
             linebuf += '|';
-            /*Replace non ascii characters of last rolw with '.'*/
+            /*Replace non ascii characters of last row with '.'*/
             for (var jj = msg.Length - msg.Length % 16; jj < msg.Length; jj++)
             {
                 if (msg[jj] >= 0x20 && msg[jj] <= 0x80)//between ' ' and '~' ascii characters
